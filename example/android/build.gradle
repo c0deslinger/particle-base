@@ -1,0 +1,40 @@
+buildscript {
+    ext {
+        agp_version = '8.5.1'
+    }
+    ext.kotlin_version = '1.9.10'
+    repositories {
+        google()
+        mavenCentral()
+        maven { setUrl("https://jitpack.io") }
+        maven { setUrl("https://s01.oss.sonatype.org/content/groups/staging/") }
+        maven { setUrl("https://s01.oss.sonatype.org/content/repositories/releases/") }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$agp_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { setUrl("https://jitpack.io") }
+        maven { setUrl("https://s01.oss.sonatype.org/content/groups/staging/") }
+        maven { setUrl("https://s01.oss.sonatype.org/content/repositories/releases/") }
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
